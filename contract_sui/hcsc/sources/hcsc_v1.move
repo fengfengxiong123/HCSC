@@ -3,12 +3,12 @@ use std::string;
 use std::string::{String, utf8};
 use std::u64::to_string;
 use sui::address;
-use sui::table::{Self, Table};
+use sui::clock;
 use sui::linked_table::{Self, LinkedTable};
 use sui::object;
-use sui::object::ID;
 use sui::transfer;
 use sui::tx_context;
+use sui::clock::Clock;
 
 public struct AnalysisCenter<phantom T: store> has key {
     id: UID,
@@ -65,6 +65,8 @@ public entry fun user_register(
     linked_table::push_back(&mut analysis_center.users, address::to_string(ctx.sender()), user);
 }
 
+// 创建报告，存入analysis center的user字段中
+// key是第count份报告+用户地址
 public entry fun create_lab_report(
     name: String,
     wbc: u64,
@@ -79,15 +81,13 @@ public entry fun create_lab_report(
         wbc,
         rbc,
         platelets,
-        crp
+        crp,
     };
 
     let user = linked_table::borrow_mut(&mut analysis_center.users, address::to_string(ctx.sender()));
-    let count = &mut user.count;
-    let count_str = to_string(count);
-
+    let mut count_str = to_string(user.count);
     string::append_utf8(&mut count_str, address::to_bytes(ctx.sender()));
-
     linked_table::push_back(&mut user.reports, count_str, lab_rep);
     user.count = user.count + 1;
 }
+
