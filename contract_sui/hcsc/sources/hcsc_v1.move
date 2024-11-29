@@ -45,6 +45,13 @@ fun init(ctx: &mut TxContext) {
         AdminCap { id: object::new(ctx) },
         tx_context::sender(ctx)
     );
+    transfer::share_object(
+        AnalysisCenter {
+            id: object::new(ctx),
+            name: b"".to_string(),
+            users: linked_table::new<String, User<LabReport>>(ctx)
+        }
+    );
 }
 
 public entry fun user_register(
@@ -89,6 +96,5 @@ public entry fun create_lab_report(
     string::append_utf8(&mut count_str, address::to_bytes(ctx.sender()));
     linked_table::push_back(&mut user.reports, count_str, lab_rep);
     user.count = user.count + 1;
-
 }
 
