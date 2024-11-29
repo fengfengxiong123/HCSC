@@ -89,5 +89,6 @@ public entry fun create_lab_report(
     string::append_utf8(&mut count_str, address::to_bytes(ctx.sender()));
     linked_table::push_back(&mut user.reports, count_str, lab_rep);
     user.count = user.count + 1;
+
 }
 
