@@ -1,14 +1,13 @@
 module hcsc::hcsc_v1;
-use std::string;
-use std::string::{String, utf8};
+
+use std::string::{Self, String, utf8};
 use std::u64::to_string;
 use sui::address;
-use sui::clock;
+use sui::clock::{Self, Clock};
 use sui::linked_table::{Self, LinkedTable};
 use sui::object;
 use sui::transfer;
 use sui::tx_context;
-use sui::clock::Clock;
 
 public struct AnalysisCenter<phantom T: store> has key {
     id: UID,
@@ -37,21 +36,19 @@ public struct LabReport has store {
 }
 
 public struct AdminCap has key {
-    id: UID
+    id: UID,
 }
 
 fun init(ctx: &mut TxContext) {
     transfer::transfer(
         AdminCap { id: object::new(ctx) },
-        tx_context::sender(ctx)
+        tx_context::sender(ctx),
     );
-    transfer::share_object(
-        AnalysisCenter {
-            id: object::new(ctx),
-            name: b"".to_string(),
-            users: linked_table::new<String, User<LabReport>>(ctx)
-        }
-    );
+    transfer::share_object(AnalysisCenter {
+        id: object::new(ctx),
+        name: b"".to_string(),
+        users: linked_table::new<String, User<LabReport>>(ctx),
+    });
 }
 
 public entry fun user_register(
@@ -59,7 +56,7 @@ public entry fun user_register(
     name: String,
     age: u64,
     gender: String,
-    ctx: &mut TxContext
+    ctx: &mut TxContext,
 ) {
     let user = User {
         name,
@@ -81,7 +78,7 @@ public entry fun create_lab_report(
     platelets: u64,
     crp: u64,
     analysis_center: &mut AnalysisCenter<LabReport>,
-    ctx: &mut TxContext
+    ctx: &mut TxContext,
 ) {
     let lab_rep = LabReport {
         name,
@@ -91,10 +88,12 @@ public entry fun create_lab_report(
         crp,
     };
 
-    let user = linked_table::borrow_mut(&mut analysis_center.users, address::to_string(ctx.sender()));
+    let user = linked_table::borrow_mut(
+        &mut analysis_center.users,
+        address::to_string(ctx.sender()),
+    );
     let mut count_str = to_string(user.count);
     string::append_utf8(&mut count_str, address::to_bytes(ctx.sender()));
     linked_table::push_back(&mut user.reports, count_str, lab_rep);
     user.count = user.count + 1;
 }
-
