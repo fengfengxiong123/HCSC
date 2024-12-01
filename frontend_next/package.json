@@ -16,9 +16,11 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache"
   },
   "dependencies": {
-    "@mysten/sui": "^1.15.0",
+    "@mysten/dapp-kit": "^0.14.39",
+    "@mysten/sui": "^1.16.0",
     "@suiet/wallet-kit": "^0.3.3",
     "@t3-oss/env-nextjs": "^0.10.1",
+    "@tanstack/react-query": "^5.62.0",
     "geist": "^1.3.0",
     "next": "^15.0.1",
     "react": "^18.3.1",
