@@ -1,9 +1,18 @@
 import { useSuiClientQuery } from '@mysten/dapp-kit';
  
+
+//hook，用来获取数据
 export function MyComponent() {
 	const { data, isPending, isError, error, refetch } = useSuiClientQuery(
-		'getOwnedObjects',
-		{ owner: '0x9222bc4b61099ced2ab5719c6528567ff75dafbfa3cddf9e2078e5c733dd3294' },
+		'getObject',
+		{ id: '0x43730530a28dc51baabc5911e30cf50d231b7eb020d4a2edc6a4c491be022fde', options: {
+			showType: false,
+			showOwner: false,
+			showPreviousTransaction: false,
+			showContent: true,
+			showStorageRebate: false,
+		}, },
+		
 		{
 			gcTime: 10000,
 		},
