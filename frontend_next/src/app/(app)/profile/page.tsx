@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MyComponent } from '../../../hooks/MyComponent'; // 确保路径正确
+import { MyComponent } from '../../../hooks/profilesHook'; // 确保路径正确
 
 const queryClient = new QueryClient();
 
