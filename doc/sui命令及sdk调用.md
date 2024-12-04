@@ -5,6 +5,24 @@ sui keytool import --alias my_test "助记词" ed25519
 # 切换活动账户
 sui client switch --address my_test
 
+# 命令行调用合约函数
+```shell
+ sui client call \
+  --package 0x508df96194cf2449cc6a97e23cf270dd648cb9149215a6f03f88c13abef152cc \
+  --module hcsc_v1 \
+  --function create_lab_report \
+  --args \
+    wuya \
+    11 \
+    12 \
+    13 \
+    14 \
+    0x43730530a28dc51baabc5911e30cf50d231b7eb020d4a2edc6a4c491be022fde \
+   --gas-budget 1000000000
+ 
+# 0x43730530a28dc51baabc5911e30cf50d231b7eb020d4a2edc6a4c491be022fde 表示共享对象
+```
+
 # sdk调用配置
 // \HCSC\frontend_next\src\components\providers.tsx
 ```
