@@ -17,5 +17,10 @@
 ## 到处私钥
 sui keytool export --key-identity my_test
 
-## 命令行调用
+## 命令行调用 最新版
+ 
+user_register: 0x6dc168bf843c49002b6b69373c70e95cb603dd666f222f99f4b00016b426a03e
+package id: 0x70fda4dee3c3aa8f305a8942940f3702c7febca054064e1c54588bbf1b2d86fe
+sui client call --package  0x70fda4dee3c3aa8f305a8942940f3702c7febca054064e1c54588bbf1b2d86fe     --module hcsc_v1 --function user_register --args  Elemen 18 people --gas-budget 100000000
 
+sui client call --package  0x70fda4dee3c3aa8f305a8942940f3702c7febca054064e1c54588bbf1b2d86fe     --module hcsc_v1 --function create_lab_report --args Elemen_report 7 7 7 7 0x6dc168bf843c49002b6b69373c70e95cb603dd666f222f99f4b00016b426a03e --gas-budget 100000000
