@@ -3,8 +3,8 @@ module hcsc::hcsc_v3;
 use std::string::{Self, String};
 use std::u64::to_string;
 use sui::address;
-use sui::table::{Self,Table};
 use sui::object;
+use sui::table::{Self, Table};
 use sui::transfer;
 use sui::tx_context;
 

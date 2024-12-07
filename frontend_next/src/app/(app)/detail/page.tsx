@@ -70,17 +70,16 @@ export default function MedicalDashboard() {
 
           {/* Blood Sample Visualization */}
           <Card className="aspect-square overflow-hidden p-6">
-            <div className="flex h-full items-center justify-center">
-              /*红细胞图片
-              <div className="relative h-4/5 w-4/5 rounded-full bg-red-100">
-                <div className="absolute inset-4 rounded-full bg-red-500/20" />
-                <div className="absolute inset-8 rounded-full bg-red-500/30" />
-                <div className="absolute inset-12 rounded-full bg-red-500/40" />
-                <div className="absolute inset-16 rounded-full bg-red-500/50" />
-              </div>
-            </div>
-            */
-          </Card>
+  <div className="flex h-full items-center justify-center">
+    <div className="relative h-4/5 w-4/5 rounded-full overflow-hidden">
+      <img
+        src="/img1.png"
+        alt="Red blood cells"
+        className="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+</Card>
         </div>
         {/* Metrics Grid */}
         <div className="grid gap-4 sm:grid-cols-2">
