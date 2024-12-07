@@ -71,6 +71,7 @@ export default function MedicalDashboard() {
           {/* Blood Sample Visualization */}
           <Card className="aspect-square overflow-hidden p-6">
             <div className="flex h-full items-center justify-center">
+              /*红细胞图片
               <div className="relative h-4/5 w-4/5 rounded-full bg-red-100">
                 <div className="absolute inset-4 rounded-full bg-red-500/20" />
                 <div className="absolute inset-8 rounded-full bg-red-500/30" />
@@ -78,9 +79,9 @@ export default function MedicalDashboard() {
                 <div className="absolute inset-16 rounded-full bg-red-500/50" />
               </div>
             </div>
+            */
           </Card>
         </div>
-
         {/* Metrics Grid */}
         <div className="grid gap-4 sm:grid-cols-2">
           {bloodMetrics.map((metric, index) => (

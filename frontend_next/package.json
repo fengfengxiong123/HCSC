@@ -16,6 +16,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@mysten/bcs": "^1.1.1",
     "@mysten/dapp-kit": "^0.14.39",
     "@mysten/sui": "^1.16.0",
     "@mysten/sui.js": "^0.54.1",
