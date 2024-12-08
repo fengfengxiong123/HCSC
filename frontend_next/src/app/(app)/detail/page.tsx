@@ -39,7 +39,7 @@ export default function MedicalDashboard() {
 
   if (userObject && reportAllInfos.length > 0) {
     const sortedReports = reportAllInfos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    const latestReport = reportAllInfos[reportAllInfos.length - 1];
+    const latestReport = getLatestReport(sortedReports);
 
     const bloodMetrics = [
       { title: '白细胞', value: latestReport.wbc, unit: '' },
