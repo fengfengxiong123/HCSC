@@ -13,6 +13,8 @@ export default function ObjectIdPage() {
         </main>
     );
 }
+
+
 function ObjectIdContent() {
     const searchParams = useSearchParams();
     const object_id = searchParams.get('objectId');

@@ -1,4 +1,3 @@
-import { useSuiClientQuery } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui.js/client';
 import React, { useState, useEffect } from 'react';
 
