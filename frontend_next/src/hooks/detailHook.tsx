@@ -105,7 +105,7 @@ async function fetchDynamicFields(parentId: string) {
 
 
 //hook，用来获取数据
-export  function MyComponent() {
+export  function UseData() {
 	const [userTableId, setUserTableId] = useState(null); 
 	const [userObject, setUserObject] = useState(null);
 	const [reportTableId, setReportTableId] = useState(null);
@@ -216,20 +216,15 @@ export  function MyComponent() {
 
 
 	
-	return (
-    <div>
-      <h1>初始数据</h1>
-      <pre>{JSON.stringify(userTableId, null, 2)}</pre>
-      <h1>第二次请求数据:userObject</h1>
-      <pre>{JSON.stringify(userObject, null, 2)}</pre>
-      <h1>第二次请求数据:reportTableId</h1>
-      <pre>{JSON.stringify(reportTableId, null, 2)}</pre>
-      <h1>第三次请求数据:reportAllIds</h1>
-      <pre>{JSON.stringify(reportAllIds, null, 2)}</pre>
-      <h1>第四次请求数据:reportAllInfos</h1>
-      <pre>{JSON.stringify(reportAllInfos, null, 2)}</pre>
-    </div>
-  );
+	return {
+    userTableId,
+    userObject,
+    reportTableId,
+    reportAllIds,
+    reportAllInfos,
+    loading,
+    error
+  };
 }
 
 	
