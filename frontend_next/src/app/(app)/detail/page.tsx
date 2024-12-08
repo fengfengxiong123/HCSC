@@ -15,21 +15,19 @@ import {
 } from 'recharts'
 import { UseData } from '../../../hooks/detailHook'
 
-// Utility function to format date
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }
 
-// Utility function to get the latest report
 const getLatestReport = (reports: any[]) => {
   return reports.reduce((latest, current) => {
-    return new Date(current.date) > new Date(latest.date) ? current : latest
-  })
+    return new Date(current.date) > new Date(latest.date) ? current : latest;
+  }, reports[0]);
 }
 
 export default function MedicalDashboard() {
-  const { userTableId, userObject, reportAllInfos, loading, error } = UseData()
+  const { userObject, reportAllInfos, loading, error } = UseData()
 
   if (loading) {
     return <div>加载中...</div>
@@ -40,7 +38,8 @@ export default function MedicalDashboard() {
   }
 
   if (userObject && reportAllInfos.length > 0) {
-    const latestReport = getLatestReport(reportAllInfos)
+    const sortedReports = reportAllInfos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const latestReport = reportAllInfos[reportAllInfos.length - 1];
 
     const bloodMetrics = [
       { title: '白细胞', value: latestReport.wbc, unit: '' },
@@ -67,7 +66,7 @@ export default function MedicalDashboard() {
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20">
                   <span className="text-2xl">+</span>
                 </div>
-                <div className="mb-2 text-lg opacity-90">{userTableId}</div>
+                <div className="mb-2 text-lg opacity-90">{latestReport.name}</div>
                 <div className="mb-1 text-4xl font-bold">{userObject.name}</div>
                 <div className="mb-4 flex items-center gap-2 text-sm opacity-75">
                   <span>{userObject.age}</span>
@@ -111,7 +110,7 @@ export default function MedicalDashboard() {
                 </div>
                 <div className="h-12">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RechartsLineChart data={reportAllInfos}>
+                    <RechartsLineChart data={sortedReports}>
                       <Line
                         type="monotone"
                         dataKey={metric.title.toLowerCase().replace(/ /g, '_')}
@@ -131,7 +130,7 @@ export default function MedicalDashboard() {
         <Card className="mt-8 p-6">
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <RechartsLineChart data={reportAllInfos}>
+              <RechartsLineChart data={sortedReports}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" tickFormatter={formatDate} />
                 <YAxis />
