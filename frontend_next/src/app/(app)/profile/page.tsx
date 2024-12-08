@@ -1,28 +1,22 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MyComponent } from '../../../hooks/profilesHook'; // 确保路径正确
+import React from "react";
+import { ProfileTest } from "./_components/profile_test";
+import Link from "next/link";
 
-const queryClient = new QueryClient();
-
-
-function App() {
-  useEffect(() => {
-    const rootElement = document.getElementById('root');
-    if (rootElement) {
-      const root = ReactDOM.createRoot(rootElement as HTMLElement);
-      root.render(<MyComponent />);
-    }
-  }, []); // 空依赖数组，确保只在客户端执行一次
-
+export default function ProfilePage() {
   return (
-    <div>
+    <div className="p-8 pt-28">
+      <Link
+        href={
+          "/callsui?ShareObjectId=0xf11dc89c68206efe335925aaf236cc966cb2f37285e98c3b95973be712cae933"
+        }
+        className="bg-pink-600 px-3 py-2 text-white rounded-full"
+      >
+        测试获取Object Data (点击跳转)
+      </Link>
       <h1>Profile</h1>
-      <MyComponent />
+      <ProfileTest />
     </div>
   );
 }
-
-export default App;
