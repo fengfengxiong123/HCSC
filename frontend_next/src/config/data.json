@@ -24,7 +24,6 @@
         }
     }
 }
-
 // register users : 
 [
     {
@@ -52,7 +51,6 @@
         "digest": "CGrkQK37jGqXdSyojATmxrS6wS2q6p8841ChNnsrvbdu"
     }
 ]
-
 // 具体的用户
 {
     "objectId": "0xd9fed58945c778ee4261a5969ed68a3a283a0ae6ffa1bce76e5f71e6d67ece5e",
@@ -120,6 +118,7 @@
         "version": 240761212,
         "digest": "ASWW73Z2fHY9qy43k1wDJAvUrobjfUJ19Pc7GbYQPibs"
     }
+]
 //  所有的报告数据
 [
     {
