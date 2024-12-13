@@ -115,7 +115,9 @@ export  function UseData() {
 	const [error, setError] = useState(null);
 
 	// hcsc_v3模块发布时的共享对象id  (合约init函数创建的共享对象AnalysisCenter)
-	let share_obj_id = "0xf11dc89c68206efe335925aaf236cc966cb2f37285e98c3b95973be712cae933";
+	// let share_obj_id = "0xf11dc89c68206efe335925aaf236cc966cb2f37285e98c3b95973be712cae933";
+	// hcsc_v4模块发布时的共享对象id  (合约init函数创建的共享对象AnalysisCenter)
+	let share_obj_id = "0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608";
 	
 	// 获取AnalysisCenterd的users字段（Table）的table id
 	useEffect(()=>{
@@ -140,7 +142,8 @@ export  function UseData() {
 			const response = fetchDynamicFieldObject(
 				userTableId, // table id
 				"0x1::string::String",
-				"d790d41adfffd48df8e38607991a297970743decff87517e647008a652587d4c" // 获取用户钱包地址。todo
+				"0x2af6c1938280cf418ce388f62deffe9a56746d0887c9e6c031a4127016987e35" // 获取用户钱包地址。todo
+				//地址二 0xc5608b3f246c832b6a0908abf0c61a22e0703f2a571e65f8b202db7b67fb366d
 			);
 			response?.then((res)=>{
 				setLoading(true);
