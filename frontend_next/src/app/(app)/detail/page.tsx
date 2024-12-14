@@ -14,26 +14,6 @@ import {
 } from "recharts";
 import { UseData } from '../../../hooks/detailHook'
 
-// const data = [
-//   { date: "11/20", value: 5 },
-//   { date: "11/21", value: 4 },
-//   { date: "11/22", value: 6 },
-//   { date: "11/23", value: 5 },
-//   { date: "11/24", value: 7 },
-//   { date: "11/25", value: 5 },
-//   { date: "11/26", value: 6 },
-//   { date: "11/27", value: 4 },
-//   { date: "11/28", value: 5 },
-//   { date: "11/29", value: 6 },
-// ];
-
-// const bloodMetrics = [
-//   { title: "White Blood Cells", value: "7.2", unit: "" },
-//   { title: "Red Blood Cells", value: "4.43", unit: "" },
-//   { title: "Globulins", value: "150", unit: "RBC" },
-//   { title: "C-Reactive Protein", value: "4.43", unit: "RBC" },
-// ];
-
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
@@ -48,7 +28,7 @@ const getLatestReport = (reports: any[]) => {
 
 
 export default function MedicalDashboard() {
-
+  
   const { userObject, reportAllInfos, loading, error } = UseData();
 
   if (loading) {
