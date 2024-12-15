@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useWallet } from '@suiet/wallet-kit';
 import { Transaction } from '@mysten/sui/transactions';
 
+
 export function FormComponent() {
     const [formData, setFormData] = useState({
         nameInput: '',
@@ -16,9 +17,10 @@ export function FormComponent() {
         cInput: '',
     })
 
-    const { account } = useWallet();
-    const tx = new Transaction();
+    const { account, status, signAndExecuteTransaction } = useWallet();
+    console.log('status', status)
 
+    const tx = new Transaction();
 
     const handleChange = (e) => {
         console.log(e)
@@ -50,7 +52,7 @@ export function FormComponent() {
         const report_crp = formData.cInput
         const report_date = formData.timeInput.getTime()
         if (account) {
-            tx.setSender(account.address);
+            // tx.setSender(account.address);
             const data = tx.moveCall({
                 target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::create_lab_report',
                 arguments: [
@@ -63,7 +65,10 @@ export function FormComponent() {
                     tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f')
                 ],
             });
-            console.log(data)
+            const response = signAndExecuteTransaction({ transaction: tx });
+            response.then((res) => {
+                console.log(res)
+            })
         }
 
     }

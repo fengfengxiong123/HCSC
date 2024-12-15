@@ -3,7 +3,7 @@
 import { WalletProvider } from '@suiet/wallet-kit';
 import { SuiTestnetChain } from '@suiet/wallet-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SuiClientProvider } from '@mysten/dapp-kit';
+import { SuiClientProvider, WalletProvider as SuiWalletProvider } from '@mysten/dapp-kit';
 import { getFullnodeUrl } from '@mysten/sui/client';
 
 import type { Chain } from '@suiet/wallet-kit';
@@ -29,10 +29,9 @@ export function Providers({ children }: ProvidersProps) {
   //用什么网，默认里面就填什么
   return (
     <QueryClientProvider client={queryClient}>
-      
       <SuiClientProvider networks={networks} defaultNetwork="testnet">
         <WalletProvider chains={SupportedChains}>
-          {children}
+            {children}
         </WalletProvider>
       </SuiClientProvider>
     </QueryClientProvider>
