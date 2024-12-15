@@ -42,6 +42,7 @@ for i in range(30):
         "crp": random.randint(0, 10),
         "date": int(tmp * (1000 * 1000))
     }
+    
     report_list.append(obj)
 
 for user_obj in user_list:
