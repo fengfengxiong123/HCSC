@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { useWallet } from "@suiet/wallet-kit";
+import { Transaction } from '@mysten/sui/transactions';
 
 export default function RegistrationPage() {
-  const wallet = useWallet();
+  const { account, status, signAndExecuteTransaction } = useWallet();
+  console.log('status', status)
+  const tx = new Transaction();
 
   const [formData, setFormData] = useState({
     name: "",   // 姓名
@@ -25,14 +28,27 @@ export default function RegistrationPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("表单数据:", formData);
+    const user_name = formData.name
+    const user_age = formData.age
+    const user_gender = formData.gender
 
-    // 模拟处理提交逻辑
-    if (wallet.address) {
-      console.log("钱包地址:", wallet.address);
-      setMessage("注册成功！");
-    } else {
-      setMessage("请连接钱包后重试。");
+    if (account) {
+      // tx.setSender(account.address);
+      const data = tx.moveCall({
+        target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::user_register',
+        arguments: [
+          tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f'),
+          tx.pure.string(user_name),
+          tx.pure.u64(user_age),
+          tx.pure.string(user_gender)
+        ],
+      });
+      const response = signAndExecuteTransaction({ transaction: tx });
+      response.then((res) => {
+        console.log(res)
+      })
     }
+
   };
 
   return (
