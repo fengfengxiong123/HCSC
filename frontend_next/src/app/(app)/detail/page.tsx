@@ -28,7 +28,7 @@ const getLatestReport = (reports: any[]) => {
 
 
 export default function MedicalDashboard() {
-  
+
   const { userObject, reportAllInfos, loading, error } = UseData();
 
   if (loading) {
@@ -44,10 +44,10 @@ export default function MedicalDashboard() {
     const latestReport = getLatestReport(sortedReports);
 
     const bloodMetrics = [
-      { title: '白细胞', value: latestReport.wbc, unit: '' },
-      { title: '红细胞', value: latestReport.rbc, unit: '' },
-      { title: '血小板', value: latestReport.platelets, unit: '' },
-      { title: 'C反应蛋白', value: latestReport.crp, unit: '' },
+      { title: '白细胞', value: latestReport.wbc, unit: '', path: 'wbc.jfif' },
+      { title: '红细胞', value: latestReport.rbc, unit: '', path: 'rbc.png' },
+      { title: '血小板', value: latestReport.platelets, unit: '', path: 'platelets.png' },
+      { title: 'C反应蛋白', value: latestReport.crp, unit: '', path: 'crp.jpg' },
     ]
 
     return (
@@ -108,7 +108,7 @@ export default function MedicalDashboard() {
                     <span className="text-sm text-gray-500">{metric.unit}</span>
                   </div>
                   <img
-                    src={`/img${index}.png`}
+                    src={`/${metric.path}`}
                     alt="红细胞"
                     className="w-full h-full object-contain"
                   />

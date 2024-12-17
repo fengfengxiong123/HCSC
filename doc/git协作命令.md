@@ -41,6 +41,10 @@ git merge origin/develop
 git config --global https.proxy https://127.0.0.1:2334
 git config --global http.proxy http://127.0.0.1:2334
 
+clash :
+git config --global https.proxy https://127.0.0.1:7899
+git config --global http.proxy http://127.0.0.1:7899
+
 ## 取消代理
 git config --global --unset http.proxy
 git config --global --unset https.proxy
