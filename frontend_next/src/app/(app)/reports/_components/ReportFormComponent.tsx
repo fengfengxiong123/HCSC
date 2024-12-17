@@ -14,7 +14,7 @@ export function FormComponent() {
         rbcInput: '',
         pltInput: '',
         cInput: '',
-    })
+    });
 
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,16 +25,12 @@ export function FormComponent() {
     const tx = new Transaction();
 
     const handleChange = (e) => {
-        console.log(e)
-        console.log(e.target)
         const { name, value } = e.target;
-        console.log(name)
-        console.log(value)
         setFormData((preData) => ({
             ...preData,
             [name]: value
-        }))
-    }
+        }));
+    };
 
     const handleTimeChange = (date) => {
         setFormData((prevData) => ({
@@ -47,14 +43,13 @@ export function FormComponent() {
         e.preventDefault();
         setIsSubmitting(true);
         setMessage("");
-        console.log('Form Data:', formData);
-        const report_name = formData.nameInput
-        const report_wbc = formData.wbcInput
-        const report_rbc = formData.rbcInput
-        const report_pla = formData.pltInput
-        const report_crp = formData.cInput
-        const report_date = formData.timeInput.getTime() * 1000
-        console.log("report_date",report_date)
+        const { nameInput, wbcInput, rbcInput, pltInput, cInput, timeInput } = formData;
+        const report_name = nameInput;
+        const report_wbc = wbcInput;
+        const report_rbc = rbcInput;
+        const report_pla = pltInput;
+        const report_crp = cInput;
+        const report_date = timeInput.getTime() * 1000;
 
         if (account) {
             try {
@@ -71,9 +66,7 @@ export function FormComponent() {
                     ],
                 });
                 const response = await signAndExecuteTransaction({ transaction: tx });
-                console.log(response);
                 setMessage("报告提交成功！");
-                // Reset form after successful submission
                 setFormData({
                     nameInput: '',
                     timeInput: new Date(),
@@ -83,129 +76,129 @@ export function FormComponent() {
                     cInput: '',
                 });
             } catch (error) {
-                console.error("报告提交失败:", error);
                 setMessage("报告提交失败，请稍后再试。");
             }
         } else {
             setMessage("请先连接钱包后再尝试提交报告。");
         }
         setIsSubmitting(false);
-    }
+    };
 
-    return (<div style={{ padding: '20px' }}>
-        <h2>报告上链</h2>
+    return (
+        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+            <h2 className="text-center text-2xl font-bold text-blue-600 mb-6">报告上链</h2>
 
-        <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-            <form onSubmit={handleSubmit}>
-                {/* 字符串输入框 */}
-                <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-                    <div>
-                        <label htmlFor="nameInput">报告名:</label>
+            <Card className="bg-white shadow-xl rounded-lg p-6">
+                <form onSubmit={handleSubmit}>
+                    {/* Report Name Input */}
+                    <div className="mb-4">
+                        <label htmlFor="nameInput" className="block text-sm font-medium text-gray-700">报告名:</label>
                         <input
                             type="text"
                             id="nameInput"
                             name="nameInput"
                             value={formData.nameInput}
                             onChange={handleChange}
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
                     </div>
-                </Card>
-                <Card className="relative  bg-white-600 p-6 text-black">
-                    <div>
-                        <label htmlFor="timeInput">报告生成日期:</label>
+
+                    {/* Report Date Input */}
+                    <div className="mb-4">
+                        <label htmlFor="timeInput" className="block text-sm font-medium text-gray-700">报告生成日期:</label>
                         <DatePicker
                             selected={formData.timeInput}
                             onChange={handleTimeChange}
                             showTimeSelect
                             timeFormat="HH:mm"
                             timeIntervals={15}
-                            dateFormat="YYYY年MM月dd日 HH:mm" // ISO 8601 格式，例如 "2023-10-05T14:30"
-                            placeholderText="选择日期时间"
-                            className="custom-datepicker" // 自定义样式类
+                            dateFormat="yyyy年MM月dd日 HH:mm"
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
                     </div>
-                </Card>
-                <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-                    <div>
-                        <label htmlFor="wbcInput">白细胞计数:</label>
+
+                    {/* WBC Input */}
+                    <div className="mb-4">
+                        <label htmlFor="wbcInput" className="block text-sm font-medium text-gray-700">白细胞计数:</label>
                         <input
                             type="number"
                             id="wbcInput"
                             name="wbcInput"
                             value={formData.wbcInput}
                             onChange={handleChange}
-                            step="any" // 允许输入小数
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
+                            step="any"
                         />
                     </div>
-                </Card>
-                <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-                    <div >
-                        <label htmlFor="rbcInput">红细胞计数:</label>
+
+                    {/* RBC Input */}
+                    <div className="mb-4">
+                        <label htmlFor="rbcInput" className="block text-sm font-medium text-gray-700">红细胞计数:</label>
                         <input
                             type="number"
                             id="rbcInput"
                             name="rbcInput"
                             value={formData.rbcInput}
                             onChange={handleChange}
-                            step="any" // 允许输入小数
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
+                            step="any"
                         />
                     </div>
-                </Card>
-                <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-                    <div>
-                        <label htmlFor="pltInput">血小板计数:</label>
+
+                    {/* PLT Input */}
+                    <div className="mb-4">
+                        <label htmlFor="pltInput" className="block text-sm font-medium text-gray-700">血小板计数:</label>
                         <input
                             type="number"
                             id="pltInput"
                             name="pltInput"
                             value={formData.pltInput}
                             onChange={handleChange}
-                            step="any" // 允许输入小数
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
+                            step="any"
                         />
                     </div>
-                </Card>
-                <Card className="relative overflow-hidden bg-white-600 p-6 text-black">
-                    <div>
-                        <label htmlFor="cInput">c反应蛋白:</label>
+
+                    {/* CRP Input */}
+                    <div className="mb-4">
+                        <label htmlFor="cInput" className="block text-sm font-medium text-gray-700">c反应蛋白:</label>
                         <input
                             type="number"
                             id="cInput"
                             name="cInput"
                             value={formData.cInput}
                             onChange={handleChange}
-                            step="any" // 允许输入小数
+                            className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
+                            step="any"
                         />
                     </div>
-                </Card>
 
-                <div style={{ marginTop: '20px' }}>
-                    <Button
-                        variant="secondary"
-                        className="bg-white/20 hover:bg-white/30"
-                        type="submit"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? '提交中...' : '确认'}
-                    </Button>
-                </div>
-
-            </form>
-        </Card>
-
-        {message && (
-            <Card className="mt-4 p-4 text-center">
-                <p className={message.includes('成功') ? 'text-green-600' : 'text-red-600'}>
-                    {message}
-                </p>
+                    {/* Submit Button */}
+                    <div className="mt-6">
+                        <Button
+                            variant="secondary"
+                            className="w-full py-3 px-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none"
+                            type="submit"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? '提交中...' : '确认'}
+                        </Button>
+                    </div>
+                </form>
             </Card>
-        )}
-    </div>
-    )
-}
 
+            {/* Feedback Message */}
+            {message && (
+                <Card className={`mt-4 p-4 text-center ${message.includes('成功') ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                    <p>{message}</p>
+                </Card>
+            )}
+        </div>
+    );
+}
