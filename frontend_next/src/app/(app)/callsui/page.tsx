@@ -16,6 +16,7 @@ export default function RegistrationPage() {
   });
 
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,28 +28,36 @@ export default function RegistrationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setMessage("");
     console.log("表单数据:", formData);
     const user_name = formData.name
     const user_age = formData.age
     const user_gender = formData.gender
 
     if (account) {
-      // tx.setSender(account.address);
-      const data = tx.moveCall({
-        target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::user_register',
-        arguments: [
-          tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f'),
-          tx.pure.string(user_name),
-          tx.pure.u64(user_age),
-          tx.pure.string(user_gender)
-        ],
-      });
-      const response = signAndExecuteTransaction({ transaction: tx });
-      response.then((res) => {
-        console.log(res)
-      })
+      try {
+        const data = tx.moveCall({
+          target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::user_register',
+          arguments: [
+            tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f'),
+            tx.pure.string(user_name),
+            tx.pure.u64(user_age),
+            tx.pure.string(user_gender)
+          ],
+        });
+        const response = await signAndExecuteTransaction({ transaction: tx });
+        console.log(response);
+        setMessage(`注册成功！欢迎，${user_name}！`);
+        setFormData({ name: "", age: "", gender: "" }); // 重置表单
+      } catch (error) {
+        console.error("注册失败:", error);
+        setMessage("注册失败，请稍后再试。");
+      }
+    } else {
+      setMessage("请先连接钱包后再尝试注册。");
     }
-
+    setIsSubmitting(false);
   };
 
   return (
@@ -95,14 +104,20 @@ export default function RegistrationPage() {
 
           <button
             type="submit"
-            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            disabled={isSubmitting}
           >
-            注册
+            {isSubmitting ? '注册中...' : '注册'}
           </button>
         </form>
 
-        {message && <p className="mt-4 text-center">{message}</p>}
+        {message && (
+          <p className={`mt-4 text-center ${message.includes('成功') ? 'text-green-600' : 'text-red-600'}`}>
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );
 }
+

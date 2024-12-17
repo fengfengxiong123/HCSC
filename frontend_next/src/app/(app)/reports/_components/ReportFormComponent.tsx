@@ -6,7 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useWallet } from '@suiet/wallet-kit';
 import { Transaction } from '@mysten/sui/transactions';
 
-
 export function FormComponent() {
     const [formData, setFormData] = useState({
         nameInput: '',
@@ -16,6 +15,9 @@ export function FormComponent() {
         pltInput: '',
         cInput: '',
     })
+
+    const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { account, status, signAndExecuteTransaction } = useWallet();
     console.log('status', status)
@@ -41,9 +43,10 @@ export function FormComponent() {
         }));
     };
 
-    const handleSubmit = (e) => {
-        console.log(e)
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
+        setMessage("");
         console.log('Form Data:', formData);
         const report_name = formData.nameInput
         const report_wbc = formData.wbcInput
@@ -54,25 +57,39 @@ export function FormComponent() {
         console.log("report_date",report_date)
 
         if (account) {
-            // tx.setSender(account.address);
-            const data = tx.moveCall({
-                target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::create_lab_report',
-                arguments: [
-                    tx.pure.string(report_name),
-                    tx.pure.u64(report_wbc),
-                    tx.pure.u64(report_rbc),
-                    tx.pure.u64(report_pla),
-                    tx.pure.u64(report_crp),
-                    tx.pure.u64(report_date),
-                    tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f')
-                ],
-            });
-            const response = signAndExecuteTransaction({ transaction: tx });
-            response.then((res) => {
-                console.log(res)
-            })
+            try {
+                const data = tx.moveCall({
+                    target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::create_lab_report',
+                    arguments: [
+                        tx.pure.string(report_name),
+                        tx.pure.u64(report_wbc),
+                        tx.pure.u64(report_rbc),
+                        tx.pure.u64(report_pla),
+                        tx.pure.u64(report_crp),
+                        tx.pure.u64(report_date),
+                        tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f')
+                    ],
+                });
+                const response = await signAndExecuteTransaction({ transaction: tx });
+                console.log(response);
+                setMessage("报告提交成功！");
+                // Reset form after successful submission
+                setFormData({
+                    nameInput: '',
+                    timeInput: new Date(),
+                    wbcInput: '',
+                    rbcInput: '',
+                    pltInput: '',
+                    cInput: '',
+                });
+            } catch (error) {
+                console.error("报告提交失败:", error);
+                setMessage("报告提交失败，请稍后再试。");
+            }
+        } else {
+            setMessage("请先连接钱包后再尝试提交报告。");
         }
-
+        setIsSubmitting(false);
     }
 
     return (<div style={{ padding: '20px' }}>
@@ -172,13 +189,22 @@ export function FormComponent() {
                         variant="secondary"
                         className="bg-white/20 hover:bg-white/30"
                         type="submit"
+                        disabled={isSubmitting}
                     >
-                        确认
+                        {isSubmitting ? '提交中...' : '确认'}
                     </Button>
                 </div>
 
             </form>
         </Card>
+
+        {message && (
+            <Card className="mt-4 p-4 text-center">
+                <p className={message.includes('成功') ? 'text-green-600' : 'text-red-600'}>
+                    {message}
+                </p>
+            </Card>
+        )}
     </div>
     )
 }
