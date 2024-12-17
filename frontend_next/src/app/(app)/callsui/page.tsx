@@ -18,7 +18,7 @@ export default function RegistrationPage() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e:any):void => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -26,7 +26,7 @@ export default function RegistrationPage() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage("");
@@ -37,7 +37,7 @@ export default function RegistrationPage() {
 
     if (account) {
       try {
-        const data = tx.moveCall({
+        tx.moveCall({
           target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::user_register',
           arguments: [
             tx.object('0x66f2ce8d058b1cabbaaebeb19593dcddef850f37b3a232dcb462498f1445c35f'),

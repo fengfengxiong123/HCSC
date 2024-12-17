@@ -1,9 +1,6 @@
 "use client";
 
-import { WalletIcon } from "lucide-react";
-import { ConnectButton } from "@suiet/wallet-kit";
 import { useRouter } from "next/navigation";
-import Link from 'next/link';
 import { Button } from "./ui/button";
 
 export function HeaderNav() {

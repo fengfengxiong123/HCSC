@@ -105,12 +105,26 @@ async function getObjects(ids: Array<string>) {
 
 //hook，用来获取数据
 export function UseData() {
+	type Report = {
+		date: Date,
+		platelets: string,
+		wbc: string,
+		rbc: string,
+		crp: string,
+		name: string,
+	};
+	type User = {
+		age: string,
+		count: string,
+		name: string,
+		gender: string,
+	};
 	const [myAddress, setMyAddress] = useState("");
 	const [userTableId, setUserTableId] = useState(null);
-	const [userObject, setUserObject] = useState(null);
+	const [userObject, setUserObject] = useState<User>();
 	const [reportTableId, setReportTableId] = useState(null);
 	const [reportAllIds, setReportAllIds] = useState<string[]>([]);
-	const [reportAllInfos, setReportAllInfos] = useState<object[]>([]);
+	const [reportAllInfos, setReportAllInfos] = useState<Report[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
@@ -139,8 +153,8 @@ export function UseData() {
 				setLoading(true);
 				console.log(res)
 				if (res?.content) {
-					console.log('获取user table id', res.content?.fields.users.fields.id.id)
-					setUserTableId(res.content?.fields.users.fields.id.id)  // 保存在userTableId变量中
+					console.log('获取user table id', (res.content as any)?.fields.users.fields.id.id)
+					setUserTableId((res.content as any)?.fields.users.fields.id.id)  // 保存在userTableId变量中
 				}
 			}).catch((error) => {
 				setError(error.message);
@@ -162,9 +176,9 @@ export function UseData() {
 				setLoading(true);
 				console.log(222, res)
 				if (res?.content) {
-					console.log('获取用户信息', res?.content.fields.value.fields.age)
-					setUserObject(res?.content.fields.value.fields)   // 保存用户信息到userObject中
-					setReportTableId(res?.content.fields.value.fields.reports.fields.id.id) // 保存reports字段（Table） 的table id到reportTableId中
+					console.log('获取用户信息',(res.content as any)?.fields.value.fields.age)
+					setUserObject((res.content as any)?.fields.value.fields)   // 保存用户信息到userObject中
+					setReportTableId((res.content as any)?.fields.value.fields.reports.fields.id.id) // 保存reports字段（Table） 的table id到reportTableId中
 				}
 			}).catch((error) => {
 				setError(error.message);
@@ -212,10 +226,10 @@ export function UseData() {
 			response?.then((res) => {
 				setLoading(true);
 				console.log(666, res)
-				let reports: object[] = [];
+				let reports: Report[] = [];
 				res.forEach((element, index) => {
-					let tmp = element.data?.content.fields.value.fields;
-					tmp["date"] = new Date(Number(BigInt(tmp["date"]))/1000);
+					let tmp = (element as any).data?.content.fields.value.fields;
+					tmp["date"] = new Date(Number(BigInt(tmp["date"])) / 1000);
 					reports.push(tmp)
 				});
 

@@ -24,7 +24,7 @@ export function FormComponent() {
 
     const tx = new Transaction();
 
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         const { name, value } = e.target;
         setFormData((preData) => ({
             ...preData,
@@ -32,14 +32,14 @@ export function FormComponent() {
         }));
     };
 
-    const handleTimeChange = (date) => {
+    const handleTimeChange = (date:any) => {
         setFormData((prevData) => ({
             ...prevData,
             timeInput: date
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
         setIsSubmitting(true);
         setMessage("");
