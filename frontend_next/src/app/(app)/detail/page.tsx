@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "recharts";
 import { UseData } from '../../../hooks/detailHook'
+import { useDownloadBlob } from '../../../config/useDownloadBlob'
 
 
 const formatDate = (dateString: string) => {
@@ -30,6 +31,11 @@ const getLatestReport = (reports: any[]) => {
 export default function MedicalDashboard() {
 
   const { userObject, reportAllInfos, loading, error } = UseData();
+  const { downloadBlobToPDF } = useDownloadBlob();
+
+  const handleDownLoadPDF = async (blobId:string) => {
+    await downloadBlobToPDF(blobId);
+  }
 
   if (loading) {
     return <div>加载中...</div>
@@ -76,8 +82,9 @@ export default function MedicalDashboard() {
                   <Button
                     variant="secondary"
                     className="bg-white/20 hover:bg-white/30"
+                    onClick={()=>handleDownLoadPDF(latestReport.name)}
                   >
-                    查看诊断单
+                    下载报告
                   </Button>
                 </div>
               </Card>

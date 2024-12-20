@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useWallet } from '@suiet/wallet-kit';
 import { Transaction } from '@mysten/sui/transactions';
+import { useUploadBlob } from "../../../../config/useUploadBlob"
 
 export function FormComponent() {
     const [formData, setFormData] = useState({
@@ -18,40 +19,65 @@ export function FormComponent() {
 
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [pdfFile, setPdfFile] = useState<File | null>(null);
+
+    const { storeBlob } = useUploadBlob();
 
     const { account, status, signAndExecuteTransaction } = useWallet();
     console.log('status', status)
 
     const tx = new Transaction();
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setFormData((preData) => ({
             ...preData,
-            [name]: value
+            [name]: value,
+
         }));
+        console.log("formData,", formData)
+        if (e.target.files && e.target.files[0]) {
+            setPdfFile(e.target.files[0])
+        }
+        console.log("pdfFile,", pdfFile)
+
     };
 
-    const handleTimeChange = (date:any) => {
+    const handleTimeChange = (date: any) => {
         setFormData((prevData) => ({
             ...prevData,
             timeInput: date
         }));
     };
 
-    const handleSubmit = async (e:any) => {
+    // 监听pdf文本框
+    const handlePdfUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setPdfFile(e.target.files[0])
+        }
+    }
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        console.log('提交-file数据', pdfFile)
         e.preventDefault();
         setIsSubmitting(true);
         setMessage("");
-        const { nameInput, wbcInput, rbcInput, pltInput, cInput, timeInput } = formData;
-        const report_name = nameInput;
+        const { wbcInput, rbcInput, pltInput, cInput, timeInput } = formData;
         const report_wbc = wbcInput;
         const report_rbc = rbcInput;
         const report_pla = pltInput;
         const report_crp = cInput;
         const report_date = timeInput.getTime() * 1000;
 
-        if (account) {
+
+        if (account && pdfFile) {
+            // 存储pdf 到walrus
+            const blobInfo = await storeBlob(pdfFile)
+            console.log("blobInfo  -- from walrus",blobInfo)
+            const blobId = blobInfo.blobId
+            const report_name = blobId
+            console.log("blobId",blobId)
+
             try {
                 const data = tx.moveCall({
                     target: '0x1be961232f8682cb89f2d6b487f790a2e979d051f6cdb5a2d274b0cbe0d82608::hcsc_v4::create_lab_report',
@@ -66,6 +92,8 @@ export function FormComponent() {
                     ],
                 });
                 const response = await signAndExecuteTransaction({ transaction: tx });
+                console.log("合约调用结果response,",response)
+
                 setMessage("报告提交成功！");
                 setFormData({
                     nameInput: '',
@@ -76,7 +104,7 @@ export function FormComponent() {
                     cInput: '',
                 });
             } catch (error) {
-                setMessage("报告提交失败，请稍后再试。");
+                setMessage(`"报告提交失败，请稍后再试。${error}"`);
             }
         } else {
             setMessage("请先连接钱包后再尝试提交报告。");
@@ -94,10 +122,9 @@ export function FormComponent() {
                     <div className="mb-4">
                         <label htmlFor="nameInput" className="block text-sm font-medium text-gray-700">报告名:</label>
                         <input
-                            type="text"
-                            id="nameInput"
-                            name="nameInput"
-                            value={formData.nameInput}
+                            type="file"
+                            id="pdf_upload"
+                            accept="pdf/*"
                             onChange={handleChange}
                             className="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
@@ -199,6 +226,7 @@ export function FormComponent() {
                     <p>{message}</p>
                 </Card>
             )}
+
         </div>
     );
 }
