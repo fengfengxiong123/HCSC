@@ -4,7 +4,7 @@ import LOGO from "../../../public/rbc.png";
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#0000FF] text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#4169E1] text-white">
       {/* Background decorative elements */}
       <div className="flex h-full justify-end">
         <div className="h-full">
@@ -44,7 +44,6 @@ export default function LandingPage() {
             }}
           >
             HEALTH CHAIN
-            <br />
             SMART CLOUD
           </h1>
 

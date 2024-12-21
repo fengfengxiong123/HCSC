@@ -65,15 +65,11 @@ export default function MedicalDashboard() {
               <Card className="relative overflow-hidden bg-blue-600 p-6 text-white">
                 <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-blue-500/50" />
                 <div className="relative">
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/20">
-                    <span className="text-2xl">+</span>
-                  </div>
                   <div className="mb-2 text-lg opacity-90">{latestReport.name}</div>
                   <div className="mb-1 text-4xl font-bold">{userObject.name}</div>
                   <div className="mb-4 flex items-center gap-2 text-sm opacity-75">
                     <span>{userObject.age}</span>
                     <span>岁</span>
-                    <span>25</span>
                     <div className="ml-4 flex items-center gap-1">
                       <span>性别</span>
                       <span className="text-pink-300">♀</span>

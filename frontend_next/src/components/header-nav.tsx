@@ -25,11 +25,35 @@ export function HeaderNav() {
 
 
   return (
-    <div>
-      <Button onClick={handleClick}>首页</Button>
-      <Button onClick={handleClick1}>详情</Button>
-      <Button onClick={handleClick2}>报告</Button>
-      <Button onClick={handleClick3}>注册</Button>
+    <div className="flex items-center gap-4">
+      <Button 
+        variant="ghost" 
+        className="hover:bg-blue-50 hover:text-blue-600 transition-colors"
+        onClick={handleClick}
+      >
+        首页
+      </Button>
+      <Button
+        variant="ghost"
+        className="hover:bg-blue-50 hover:text-blue-600 transition-colors" 
+        onClick={handleClick1}
+      >
+        详情
+      </Button>
+      <Button
+        variant="ghost"
+        className="hover:bg-blue-50 hover:text-blue-600 transition-colors"
+        onClick={handleClick2}
+      >
+        报告
+      </Button>
+      <Button
+        variant="ghost" 
+        className="hover:bg-blue-50 hover:text-blue-600 transition-colors"
+        onClick={handleClick3}
+      >
+        注册
+      </Button>
     </div>
   );
 }

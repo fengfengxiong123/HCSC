@@ -48,7 +48,7 @@ export function useDownloadBlob(config: DownloadBlobConfig = {}) {
         const pdfUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = pdfUrl;
-        link.download = '1.pdf';
+        link.download = '1.jpg';
         link.click()
   };
 
